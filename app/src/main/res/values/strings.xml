@@ -11,4 +11,8 @@
     <string name="menu_galeria">Galeria</string>
     <string name="acceder">Acceder</string>
     <string name="selecc_imagen">Selecc. imagen</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_imagepicker">Galeria con imagepicker</string>
+    <string name="titulo_imagepicker">Galeria con Imagepicker</string>
 </resources>
