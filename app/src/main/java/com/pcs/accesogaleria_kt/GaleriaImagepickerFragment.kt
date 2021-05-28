@@ -17,11 +17,6 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePicker.Companion.getError
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [GaleriaImagepickerFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class GaleriaImagepickerFragment : Fragment() {
 
     private lateinit var ivFoto: ImageView
@@ -49,13 +44,14 @@ class GaleriaImagepickerFragment : Fragment() {
 
                 ImagePicker.with(this)
                     .galleryOnly()
-                    .createIntent { intent ->
-                        startForProfileImageResult.launch(intent)
-                    }
+                    .start()
 
                 /*ImagePicker.with(this)
-                    .galleryOnly()
-                    .start()*/
+                    .compress(1024)         //Final image size will be less than 1 MB(Optional)
+                    .maxResultSize(1080, 1080)  //Final image resolution will be less than 1080 x 1080(Optional)
+                    .createIntent { intent ->
+                        startForProfileImageResult.launch(intent)
+                    }*/
             }
         }
     }
@@ -76,9 +72,11 @@ class GaleriaImagepickerFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), "Tarea cancelada", Toast.LENGTH_SHORT).show()
             }
+
+            flagsControl = false
         }
 
-    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
@@ -91,7 +89,7 @@ class GaleriaImagepickerFragment : Fragment() {
         }
 
         flagsControl = false
-    }*/
+    }
 
     companion object {
         private var flagsControl = false
