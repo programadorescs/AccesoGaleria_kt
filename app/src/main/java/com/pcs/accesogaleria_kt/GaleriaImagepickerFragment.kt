@@ -42,9 +42,15 @@ class GaleriaImagepickerFragment : Fragment() {
             if(!flagsControl){
                 flagsControl = true
 
+                /*ImagePicker.with(this)
+                    .galleryOnly()
+                    .start()*/
+
                 ImagePicker.with(this)
                     .galleryOnly()
-                    .start()
+                    .createIntent { intent ->
+                        startForProfileImageResult.launch(intent)
+                    }
 
                 /*ImagePicker.with(this)
                     .compress(1024)         //Final image size will be less than 1 MB(Optional)
@@ -76,7 +82,7 @@ class GaleriaImagepickerFragment : Fragment() {
             flagsControl = false
         }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
@@ -89,7 +95,7 @@ class GaleriaImagepickerFragment : Fragment() {
         }
 
         flagsControl = false
-    }
+    }*/
 
     companion object {
         private var flagsControl = false
