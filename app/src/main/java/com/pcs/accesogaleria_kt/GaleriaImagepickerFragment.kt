@@ -11,7 +11,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.github.dhaval2404.imagepicker.ImagePicker.Companion.getError
 
 
 /**
@@ -46,12 +49,36 @@ class GaleriaImagepickerFragment : Fragment() {
 
                 ImagePicker.with(this)
                     .galleryOnly()
-                    .start()
+                    .createIntent { intent ->
+                        startForProfileImageResult.launch(intent)
+                    }
+
+                /*ImagePicker.with(this)
+                    .galleryOnly()
+                    .start()*/
             }
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+
+            if (resultCode == Activity.RESULT_OK) {
+                //Image Uri will not be null for RESULT_OK
+                val fileUri = data?.data!!
+
+                imageUri = fileUri
+                ivFoto.setImageURI(fileUri)
+            } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                Toast.makeText(requireContext(), getError(data), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Tarea cancelada", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
@@ -64,7 +91,7 @@ class GaleriaImagepickerFragment : Fragment() {
         }
 
         flagsControl = false
-    }
+    }*/
 
     companion object {
         private var flagsControl = false
